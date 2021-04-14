@@ -1,0 +1,36 @@
+#By Sarah Malik
+import pymongo
+import gridfs
+import os
+
+# User Input
+client = pymongo.MongoClient(
+    "") #Insert connection string
+
+# Insert folder where your images are in 'cateogires' variables and update path
+datadir = r'C:\Users\sarah\OneDrive - Drexel University\TAMG_Intelligent Systems\14. Projects\SLF_2020'
+categories = ['noegg']
+
+
+    
+db = client['TAMG_DB']
+print('Connection Made to Atlas Server')
+upload_bucket = 'SLF_Project_DEV'
+fs = gridfs.GridFSBucket(db, bucket_name=upload_bucket)
+print('Conection Made to GRIDFS and Bucket: ' + upload_bucket)
+
+n = 0
+
+for category in categories:
+    path = os.path.join(datadir, category)  # path to images
+    for img in os.listdir(path):
+        n = n + 1
+        data = open(os.path.join(path, img), 'rb')
+        thedata = data.read()
+        print('Data Read')
+        grid_in = fs.upload_from_stream(
+            "SLF_Training_No_Egg_{}".format(n), thedata,
+            metadata={"ContentType": "Images/jpg",
+                      "Classification": "No_Egg"},
+            chunk_size_bytes=5000)
+        print('Gridin Stream {} Done'.format(n))
