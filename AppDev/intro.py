@@ -33,6 +33,9 @@ model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentro
 #fit the model with the data
 model.fit(x_train, y_train, epochs=10)
 
+#save the model
+tf.keras.models.save_model(model, 'recognition_model.hdf5')
+
 #test the model
 test_loss, test_accuracy = model.evaluate(x_test, y_test, verbose=2)
 
