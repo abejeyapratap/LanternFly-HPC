@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.datasets.fashion_mnist import load_data
 
 #trying to use the gpu power
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-print(tf.config.list_physical_devices('GPU'))
+""" print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+print(tf.config.list_physical_devices('GPU')) """
 
 dataset = load_data()
 (x_train, y_train), (x_test, y_test) = dataset
