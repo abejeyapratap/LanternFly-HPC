@@ -1,0 +1,3 @@
+Go to figshare link and download the images for 'eggs_cropped' and 'noegg'.
+Link for folder with 'eggs_cropped': https://figshare.com/s/cc7366250171d2d4fce3
+Link for folder with 'noegg': https://figshare.com/s/4629d7d3ec807efd6878
