@@ -7,10 +7,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import gzip
-# import time
+import time
 # import random
 
-# Function to load data from /beegfs/Sample_TF_Datasets/ directory on Picotte
+# Function to load data from /beegfs/Sample_TF_Datasets/ parallel scratch storage directory on Picotte
 def load_mnist(path, kind='train'):
     """Load MNIST data from `path`"""
     labels_path = os.path.join(path,
@@ -42,7 +42,6 @@ else:
 print()
 
 # Load data
-fashion_mnist = tf.keras.datasets.fashion_mnist
 train_images, train_labels = load_mnist('/beegfs/Sample_TF_Datasets/Fashion_MNIST', kind='train')
 test_images, test_labels = load_mnist('/beegfs/Sample_TF_Datasets/Fashion_MNIST', kind='t10k')
 
@@ -74,10 +73,16 @@ model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentro
               metrics=['accuracy'])
 
 # fit the model with the data
+print('Training starting...')
+tic = time.perf_counter()
 model.fit(train_images, train_labels, epochs=10)
+toc = time.perf_counter()
+print()
+print(f'Training completed in {toc - tic:0.4f} seconds')
+print()
 
 # save the model
-tf.keras.models.save_model(model, 'recognition_model.hdf5')
+# tf.keras.models.save_model(model, 'recognition_model.hdf5')
 
 # test the model
 test_loss, test_accuracy = model.evaluate(test_images, test_labels, verbose=2)
@@ -94,8 +99,6 @@ predicted_label = np.argmax(predictions)  # select max from the values returned
 print(test_labels[0])  # actual labels for the values
 
 # Graph
-
-
 def plot_image(i, predictions_array, true_label, img):
     true_label, img = true_label[i], img[i]
     plt.grid(False)
@@ -131,12 +134,15 @@ def plot_value_array(i, predictions_array, true_label):
 
 num_rows = 5
 num_cols = 3
-num_images = num_rows*num_cols
-plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+num_images = num_rows * num_cols
+fig = plt.figure(figsize=(2*2*num_cols, 2*num_rows))
 for i in range(num_images):
     plt.subplot(num_rows, 2*num_cols, 2*i+1)
     plot_image(i, predictions[i], test_labels, test_images)
     plt.subplot(num_rows, 2*num_cols, 2*i+2)
     plot_value_array(i, predictions[i], test_labels)
-plt.tight_layout()
-plt.show()
+    plt.tight_layout()
+# plt.show()
+# Save the plotted model as a PNG
+plt.savefig('/home/aj928/mnist/verification.png', bbox_inches='tight')
+plt.close(fig)
