@@ -141,7 +141,7 @@ for i in range(num_images):
     plot_image(i, predictions[i], test_labels, test_images)
     plt.subplot(num_rows, 2*num_cols, 2*i+2)
     plot_value_array(i, predictions[i], test_labels)
-    plt.tight_layout()
+plt.tight_layout()
 # plt.show()
 # Save the plotted model as a PNG
 plt.savefig('/home/aj928/mnist/verification.png', bbox_inches='tight')
