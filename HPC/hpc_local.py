@@ -1,6 +1,6 @@
 # Abe Jeyapratap
 # 5/25/2021
-# Modifications on TensorFlow MNIST Classification Model to be run on Picotte, the HPC Cluster
+# Modifications on TensorFlow MNIST Classification Model to be run locally
 
 import tensorflow as tf
 import numpy as np
@@ -52,7 +52,7 @@ model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentro
 model.fit(train_images, train_labels, epochs=10)
 
 # save the model
-tf.keras.models.save_model(model, 'recognition_model.hdf5')
+# tf.keras.models.save_model(model, 'recognition_model.hdf5')
 
 # test the model
 test_loss, test_accuracy = model.evaluate(test_images, test_labels, verbose=2)
@@ -107,11 +107,15 @@ def plot_value_array(i, predictions_array, true_label):
 num_rows = 5
 num_cols = 3
 num_images = num_rows*num_cols
-plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+# plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+fig = plt.figure(figsize=(2*2*num_cols, 2*num_rows))
 for i in range(num_images):
     plt.subplot(num_rows, 2*num_cols, 2*i+1)
     plot_image(i, predictions[i], test_labels, test_images)
     plt.subplot(num_rows, 2*num_cols, 2*i+2)
     plot_value_array(i, predictions[i], test_labels)
-plt.tight_layout()
-plt.show()
+    plt.tight_layout()
+# plt.show()
+# Save the output as a PNG
+plt.savefig('./HPC/verification.png', bbox_inches='tight')
+plt.close(fig)
