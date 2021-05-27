@@ -1,5 +1,7 @@
 # High-Performance Computing & GPU Processing
 
+###### Abe Jeyapratap
+
 ## Connecting to Picotte (Drexel URCF's HPC Cluster)
 See tutorial found in Documents/Software Team/GPU Processing/Connecting to Picotte - Abe Jeyapratap.pptx
 
