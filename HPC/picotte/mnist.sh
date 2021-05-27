@@ -3,13 +3,13 @@
 #SBATCH --partition=def
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-core=1
-#SBATCH --cpus-per-task=24
-#SBATCH --time=00:15:00
-#SBATCH --mem=150G
+#SBATCH --cpus-per-task=8
+#SBATCH --time=00:30:00
+#SBATCH --mem=160G
 
 ## Name: Abe Jeyapratap
 ## Purpose: Run MNIST Classification Model on Picotte
-## Date: 5/26/21
+## Date: 5/27/21
 
 # Use Anaconda Python & Initialize Shell with login script
 module load python/anaconda3
@@ -18,10 +18,11 @@ module load python/anaconda3
 # Activate the Conda environment
 if [ $SLURM_JOB_PARTITION == "gpu" ]
 then
-    echo "Running on GPU"
+    echo -e "\nRunning on GPU\n"
 else
     echo -e "\nRunning on CPU\n"
     conda activate tf-mnist2
+    # conda activate tf24
 fi
 
 # Run the MNIST Classification script

@@ -1,25 +1,58 @@
+#!/usr/bin/env python3
+
 # Abe Jeyapratap
-# 5/25/2021
-# Modifications on TensorFlow MNIST Classification Model to be run locally
+# 5/27/2021
+# Modifications on TensorFlow MNIST Classification Model to be run on Picotte, the HPC Cluster
+# Uses Picotte's Fasion MNIST dataset
 
 import tensorflow as tf
+from tensorflow import keras
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+import gzip
+import time
+# import random
+
+# Function to load data from /beegfs/Sample_TF_Datasets/ parallel scratch storage directory on Picotte
+def load_mnist(path, kind='train'):
+    """Load MNIST data from `path`"""
+    labels_path = os.path.join(path,
+                               '%s-labels-idx1-ubyte.gz'
+                               % kind)
+    images_path = os.path.join(path,
+                               '%s-images-idx3-ubyte.gz'
+                               % kind)
+
+    with gzip.open(labels_path, 'rb') as lbpath:
+        labels = np.frombuffer(lbpath.read(), dtype=np.uint8,
+                               offset=8)
+
+    with gzip.open(images_path, 'rb') as imgpath:
+        images = np.frombuffer(imgpath.read(), dtype=np.uint8,
+                               offset=16).reshape(len(labels), 784)
+
+    return images, labels
+
 
 print()
 print(f"TensorFlow version = {tf.__version__}")
+print(f"Keras version = {keras.__version__}")
 print()
 
 if tf.test.gpu_device_name():
-    print('Connected to GPU(s)', tf.test.gpu_device_name())
+    print('\nConnected to GPU(s)', tf.test.gpu_device_name())
+    physical_devices = tf.config.experimental.list_physical_devices('GPU')
+    print("\nNum GPUs:", len(physical_devices))
 else:
-    print('Not connected to GPU')
+    print('\nNOT connected to GPU')
+    physical_devices = tf.config.experimental.list_physical_devices('CPU')
+    print("\nNum CPUs:", len(physical_devices))
 print()
 
 # Load data
-fashion_mnist = tf.keras.datasets.fashion_mnist
-(train_images, train_labels), (test_images,
-                               test_labels) = fashion_mnist.load_data()
+train_images, train_labels = load_mnist('/beegfs/Sample_TF_Datasets/Fashion_MNIST', kind='train')
+test_images, test_labels = load_mnist('/beegfs/Sample_TF_Datasets/Fashion_MNIST', kind='t10k')
 
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
@@ -37,9 +70,8 @@ test_images = test_images / 255.0
 
 # instansitate the model by stacking the layers on top of each other
 model = tf.keras.Sequential([
-    tf.keras.layers.Flatten(input_shape=(28, 28)),
+    # Deleted Flatten() layer since loaded data is already flattened into 784 (instead of 28x28)
     # create network of 128 neurons
-    tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dense(10)  # create network of 10
 ])
@@ -49,7 +81,13 @@ model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentro
               metrics=['accuracy'])
 
 # fit the model with the data
+print('Training starting...')
+tic = time.perf_counter()
 model.fit(train_images, train_labels, epochs=10)
+toc = time.perf_counter()
+print()
+print(f'Training completed in {toc - tic:0.4f} seconds')
+print()
 
 # save the model
 # tf.keras.models.save_model(model, 'recognition_model.hdf5')
@@ -69,8 +107,6 @@ predicted_label = np.argmax(predictions)  # select max from the values returned
 print(test_labels[0])  # actual labels for the values
 
 # Graph
-
-
 def plot_image(i, predictions_array, true_label, img):
     true_label, img = true_label[i], img[i]
     plt.grid(False)
@@ -103,19 +139,20 @@ def plot_value_array(i, predictions_array, true_label):
     thisplot[predicted_label].set_color('red')
     thisplot[true_label].set_color('blue')
 
+# Loaded images from Picotte are 784; reshape to 28x28 for plotting
+test_images_reshaped = np.reshape(test_images, (test_images.shape[0], 28, 28))
 
 num_rows = 5
 num_cols = 3
-num_images = num_rows*num_cols
-# plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+num_images = num_rows * num_cols
 fig = plt.figure(figsize=(2*2*num_cols, 2*num_rows))
 for i in range(num_images):
     plt.subplot(num_rows, 2*num_cols, 2*i+1)
-    plot_image(i, predictions[i], test_labels, test_images)
+    plot_image(i, predictions[i], test_labels, test_images_reshaped)
     plt.subplot(num_rows, 2*num_cols, 2*i+2)
     plot_value_array(i, predictions[i], test_labels)
-    plt.tight_layout()
+plt.tight_layout()
 # plt.show()
-# Save the output as a PNG
-plt.savefig('./HPC/verification.png', bbox_inches='tight')
+# Save the plotted model as a PNG
+plt.savefig('verification.png', bbox_inches='tight')
 plt.close(fig)
