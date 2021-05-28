@@ -1,0 +1,8 @@
+name: tf-mnist2
+channels:
+  - defaults
+dependencies:
+  - tensorflow=2.0.0
+  - matplotlib=3.3.4
+  - python=3.7.10
+prefix: /Users/abejey/opt/anaconda3/envs/tf-mnist2
