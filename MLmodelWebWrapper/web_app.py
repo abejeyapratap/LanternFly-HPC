@@ -24,7 +24,7 @@ def import_and_predict(image, model):
   #img=img.reshape((img_size,img_size))
   img=np.array(img).reshape(-1, img_size, img_size, 3)
   img=(img/255.0)               
-  img=1-img
+  #img=1-img
   return model.predict(img)
 
 
@@ -36,4 +36,5 @@ else:
   prediction = import_and_predict(image, model)
   print(prediction)
   print(prediction.shape)
+  #st.write("This is a picture with an egg")
   st.write(prediction)
