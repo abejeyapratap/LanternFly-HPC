@@ -40,14 +40,20 @@ def get_images(link):
 
 
 if __name__ == "__main__":
-    scrape_url = "https://www.istockphoto.com/photos/spotted-lanternfly"
+    scrape_url = input("enter url")
+    if(scrape_url == ""):
+        scrape_url = "https://www.istockphoto.com/photos/spotted-lanternfly"
+    
     ##scrape_url = "https://www.google.com/search?q=spotted+lanternfly&hl=en&tbm=isch&sxsrf=ALeKk03xdJ4LuD62mU5osCSLr_muisY_hA%3A1620401600849&source=hp&biw=1497&bih=863&ei=wF2VYPePMaGOwbkPyvWhkAo&oq=spotted+&gs_lcp=CgNpbWcQAxgAMgQIIxAnMgUIABCxAzIFCAAQsQMyBQgAELEDMggIABCxAxCDATIFCAAQsQMyBQgAELEDMgUIABCxAzIFCAAQsQMyAggAOgcIIxDqAhAnUJlwWNZ3YNl-aAFwAHgAgAFTiAGBBJIBATiYAQCgAQGqAQtnd3Mtd2l6LWltZ7ABCg&sclient=img"
     
     # load the url and get all img srcs
     files = get_images(scrape_url)
 
     # Where the images will be saved to
-    IMAGE_DOWNLOAD_DIRECTORY = "/Users/jhwang/Downloads/SLFpics"
+    IMAGE_DOWNLOAD_DIRECTORY = input("enter pathname")
+    if(IMAGE_DOWNLOAD_DIRECTORY == ""):
+        IMAGE_DOWNLOAD_DIRECTORY = "/Users/jhwang/Downloads/SLFpics"
+    
 
     # Ensure the image directory is created
     os.makedirs(IMAGE_DOWNLOAD_DIRECTORY, exist_ok=True)
