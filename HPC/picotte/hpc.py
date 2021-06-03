@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Abe Jeyapratap
-# 5/27/2021
+# 5/27/2021 - 6/3/2021
 # Modifications on TensorFlow MNIST Classification Model to be run on Picotte, the HPC Cluster
 # Uses Picotte's Fasion MNIST dataset
 
@@ -90,7 +90,7 @@ print(f'Training completed in {toc - tic:0.4f} seconds')
 print()
 
 # save the model
-# tf.keras.models.save_model(model, 'recognition_model.hdf5')
+tf.keras.models.save_model(model, 'recognition_model.hdf5')
 
 # test the model
 test_loss, test_accuracy = model.evaluate(test_images, test_labels, verbose=2)
