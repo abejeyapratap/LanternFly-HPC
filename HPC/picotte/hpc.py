@@ -41,7 +41,7 @@ print(f"Keras version = {keras.__version__}")
 print()
 
 if tf.test.gpu_device_name():
-    print('\nConnected to GPU(s)', tf.test.gpu_device_name())
+    print('\nConnected to GPU(s): ', tf.test.gpu_device_name())
     physical_devices = tf.config.experimental.list_physical_devices('GPU')
     print("\nNum GPUs:", len(physical_devices))
 else:
