@@ -6,8 +6,7 @@ downloads all the images to that directory. Simply run it and enter a pathname a
 Google images but websites such as Flikr, Iphoto, and pintrest all work.
 
 # Output
-If the file "SLFpics" does not already exist at the time of execution, the script will make one. If it does exist, it will use that folder. If the images downloaded 
-already exist in the folder, the script will not redownload them.
+If the images that will be downloaded already exist in the folder, the script will not redownload them.
 
 The default website is https://www.istockphoto.com/photos/spotted-lanternfly so if no pathname is given, it will download all the images off this website
 
