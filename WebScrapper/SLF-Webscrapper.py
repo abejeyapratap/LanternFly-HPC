@@ -9,7 +9,7 @@ import math
 import urllib.request
 import shutil
 import requests
-
+import sys
 def is_valid_url(u):
     parsed = urlparse(u)
     return bool(parsed.netloc) and bool(parsed.scheme)
@@ -52,7 +52,8 @@ if __name__ == "__main__":
     # Where the images will be saved to
     IMAGE_DOWNLOAD_DIRECTORY = input("enter pathname")
     if(IMAGE_DOWNLOAD_DIRECTORY == ""):
-        IMAGE_DOWNLOAD_DIRECTORY = "/Users/jhwang/Downloads/SLFpics"
+        print("No pathname found")
+        sys.exit()
     
 
     # Ensure the image directory is created
