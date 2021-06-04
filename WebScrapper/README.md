@@ -6,6 +6,7 @@ downloads all the images to that directory. Simply run it and enter a pathname a
 Google images but websites such as Flikr, Iphoto, and pintrest all work.
 
 # Output
+If a file in the pathname does not exist, it will create a file with that name.
 If the images that will be downloaded already exist in the folder, the script will not redownload them.
 
 The default website is https://www.istockphoto.com/photos/spotted-lanternfly so if no pathname is given, it will download all the images off this website
