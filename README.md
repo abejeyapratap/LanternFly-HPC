@@ -1,3 +1,5 @@
-# Spotted_Lantern_Flies
+# Fighting the Invasive Spotted Lanternfly with Technology and Citizen Science
 
-Codes written for Image Analysis
+## Vertically Integrated Projects (VIP Research Program)
+
+Spring 2021 Repository for Image Analysis
