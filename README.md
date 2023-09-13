@@ -1,7 +1,6 @@
-## Fighting the Invasive Spotted Lanternfly with Technology and Citizen Science
+## Fighting the Invasive Spotted Lanternfly using Machine Learning
 
-#### Vertically Integrated Projects (VIP Research Program)
-
+### VIP Research Program
 Spring 2021 Repository for all Image Analysis code written (Streamlit/Heroku web-app, Python webscrapper, HPC bash scripts, ML models).
 
-My contribution towards leveraging GPU Processing for Machine Learning models in a High-Performance Computing (HPC) environment is found in: ```./HPC/```
+I contributed towards leveraging GPU Processing for Machine Learning models in a High-Performance Computing (HPC) environment. See extensive [docs](https://github.com/abejeyapratap/LanternFly-HPC/tree/main/HPC#high-performance-computing--gpu-processing)
